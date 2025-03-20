@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繁簡轉換</title>
 
-    <!-- ✅ 使用不同的 CDN，避免 GitHub Pages 限制 -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/umd/full.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,18 +70,19 @@
             document.getElementById("outputText").value = await converterST.convert(inputText);
         }
 
-        // ✅ 確保 OpenCC 加載完成後再執行
-        window.onload = async function () {
-            console.log("✅ 頁面加載完成，開始檢查 OpenCC...");
-            setTimeout(async () => {
-                if (typeof OpenCC !== "undefined") {
-                    await loadOpenCC();
-                } else {
-                    console.error("❌ OpenCC 無法載入！");
-                    alert("OpenCC 載入失敗，請稍後再試！");
-                }
-            }, 2000); // 延遲 2 秒，確保 OpenCC 加載
+        // ✅ 使用 onload 確保 OpenCC 真的載入
+        let script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/umd/full.js";
+        script.async = true;
+        script.onload = async function () {
+            console.log("✅ OpenCC 載入成功！");
+            await loadOpenCC();
         };
+        script.onerror = function () {
+            console.error("❌ OpenCC 載入失敗！");
+            alert("OpenCC 載入失敗，請稍後再試！");
+        };
+        document.head.appendChild(script);
     </script>
 
 </body>
