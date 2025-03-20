@@ -115,32 +115,34 @@
     <div class="messenger" onclick="window.location.href='https://m.me/'">💬</div>
     
     <script>
-   let converterTS, converterST;
+let converterTS, converterST;
 
-        async function loadOpenCC() {
-            converterTS = await OpenCC.ConverterAsync("t2s.json");
-            converterST = await OpenCC.ConverterAsync("s2t.json");
-        }
+async function loadOpenCC() {
+    converterTS = OpenCC.Converter({ from: 't', to: 's' });
+    converterST = OpenCC.Converter({ from: 's', to: 't' });
+}
 
-        async function convertToSimplified() {
-            const inputText = document.getElementById("inputText").value;
-            if (!converterTS) {
-                alert("轉換器未載入，請稍候再試！");
-                return;
-            }
-            document.getElementById("outputText").value = await converterTS.convert(inputText);
-        }
+async function convertToSimplified() {
+    const inputText = document.getElementById("inputText").value;
+    if (!converterTS) {
+        alert("轉換器未載入，請稍候再試！");
+        return;
+    }
+    document.getElementById("outputText").value = converterTS(inputText);
+}
 
-        async function convertToTraditional() {
-            const inputText = document.getElementById("inputText").value;
-            if (!converterST) {
-                alert("轉換器未載入，請稍候再試！");
-                return;
-            }
-            document.getElementById("outputText").value = await converterST.convert(inputText);
-        }
+async function convertToTraditional() {
+    const inputText = document.getElementById("inputText").value;
+    if (!converterST) {
+        alert("轉換器未載入，請稍候再試！");
+        return;
+    }
+    document.getElementById("outputText").value = converterST(inputText);
+}
 
-        loadOpenCC();
+// 確保轉換器正確載入
+loadOpenCC();
+
         
         $(document).ready(function(){
             $('.banner').slick({
