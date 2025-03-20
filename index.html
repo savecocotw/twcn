@@ -26,52 +26,37 @@
             width: 100%;
             height: auto;
         }
-        textarea {
-            width: 90%;
-            max-width: 600px;
-            height: 150px;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
+        .marquee {
+            overflow: hidden;
+            height: 30px;
+            line-height: 30px;
+            white-space: nowrap;
         }
-        button {
-            margin: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
+        .marquee div {
+            display: inline-block;
+            animation: marqueeScroll 5s linear infinite;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 100%;
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
+        @keyframes marqueeScroll {
+            from { transform: translateY(100%); }
+            to { transform: translateY(-100%); }
         }
         .social-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-top: 10px;
         }
-        .social-buttons a {
-            margin: 5px;
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #0084ff;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
+        .social-buttons span {
             font-size: 16px;
+            margin-right: 10px;
         }
-        .social-buttons a:hover {
-            opacity: 0.8;
+        .social-buttons a {
+            margin: 0 5px;
+            display: inline-block;
+        }
+        .social-buttons img {
+            width: 32px;
+            height: 32px;
         }
         .messenger {
             position: fixed;
@@ -102,6 +87,10 @@
         <div><img src="banner3.jpg" alt="Banner 3"></div>
     </div>
     
+    <div class="marquee">
+        <div>歡迎使用繁簡轉換工具，輕鬆轉換您的文字！</div>
+    </div>
+    
     <div class="container">
         <h2>繁體 ⇆ 簡體 轉換器</h2>
         <textarea id="inputText" placeholder="請輸入文字..."></textarea><br>
@@ -116,10 +105,11 @@
     <div class="footer">
         訪問次數：<span id="counter">0</span>
         <div class="social-buttons">
-            <a href="https://line.me/" target="_blank">LINE</a>
-            <a href="https://facebook.com/" target="_blank">FACEBOOK</a>
-            <a href="https://instagram.com/" target="_blank">INSTAGRAM</a>
-            <a href="https://www.threads.net/" target="_blank">THREADS</a>
+            <span>分享：</span>
+            <a href="https://line.me/" target="_blank"><img src="line-icon.png" alt="LINE"></a>
+            <a href="https://facebook.com/" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="https://instagram.com/" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://www.threads.net/" target="_blank"><img src="threads-icon.png" alt="Threads"></a>
         </div>
         <div class="copyright">© 2025 繁簡轉換工具. 保留所有權利.</div>
     </div>
