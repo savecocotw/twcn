@@ -118,8 +118,13 @@
 let converterTS, converterST;
 
 async function loadOpenCC() {
-    converterTS = OpenCC.Converter({ from: 't', to: 's' });
-    converterST = OpenCC.Converter({ from: 's', to: 't' });
+    try {
+        converterTS = await OpenCC.ConverterAsync("t2s");
+        converterST = await OpenCC.ConverterAsync("s2t");
+        console.log("OpenCC 繁簡轉換器加載成功！");
+    } catch (error) {
+        console.error("OpenCC 加載失敗：", error);
+    }
 }
 
 async function convertToSimplified() {
@@ -128,7 +133,7 @@ async function convertToSimplified() {
         alert("轉換器未載入，請稍候再試！");
         return;
     }
-    document.getElementById("outputText").value = converterTS(inputText);
+    document.getElementById("outputText").value = await converterTS.convert(inputText);
 }
 
 async function convertToTraditional() {
@@ -137,11 +142,12 @@ async function convertToTraditional() {
         alert("轉換器未載入，請稍候再試！");
         return;
     }
-    document.getElementById("outputText").value = converterST(inputText);
+    document.getElementById("outputText").value = await converterST.convert(inputText);
 }
 
 // 確保轉換器正確載入
 loadOpenCC();
+
 
         
         $(document).ready(function(){
