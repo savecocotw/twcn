@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繁簡轉換</title>
 
-    <!-- ✅ 使用正確的 OpenCC CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/full.js"></script>
+    <!-- ✅ 確保 OpenCC 正確載入 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/full.js"></script>
 
     <style>
         body {
@@ -51,7 +51,7 @@
                 console.log("✅ OpenCC 轉換器加載成功！");
             } catch (error) {
                 console.error("❌ OpenCC 加載失敗：", error);
-                alert("轉換器未載入，請稍候再試！");
+                alert("OpenCC 載入失敗，請稍後再試！");
             }
         }
 
@@ -73,12 +73,17 @@
             document.getElementById("outputText").value = await converterST.convert(inputText);
         }
 
-        // ✅ 確保 DOM 載入後才執行
-        document.addEventListener("DOMContentLoaded", () => {
+        // ✅ 確保 OpenCC 已載入後再執行
+        document.addEventListener("DOMContentLoaded", async () => {
             console.log("✅ DOM 加載完成，準備載入 OpenCC...");
-            loadOpenCC();
-        });
 
+            if (typeof OpenCC !== "undefined") {
+                await loadOpenCC();
+            } else {
+                console.error("❌ OpenCC 無法載入！");
+                alert("OpenCC 載入失敗，請稍後再試！");
+            }
+        });
     </script>
 
 </body>
