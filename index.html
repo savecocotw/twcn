@@ -115,33 +115,33 @@
     <div class="messenger" onclick="window.location.href='https://m.me/'">💬</div>
     
     <script>
-        let converterTS, converterST;
+   let converterTS, converterST;
 
         async function loadOpenCC() {
-            converterTS = await OpenCC.Converter({ from: 't', to: 's' });
-            converterST = await OpenCC.Converter({ from: 's', to: 't' });
+            converterTS = await OpenCC.ConverterAsync("t2s.json");
+            converterST = await OpenCC.ConverterAsync("s2t.json");
         }
 
         async function convertToSimplified() {
             const inputText = document.getElementById("inputText").value;
-            if (converterTS) {
-                document.getElementById("outputText").value = await converterTS(inputText);
-            } else {
+            if (!converterTS) {
                 alert("轉換器未載入，請稍候再試！");
+                return;
             }
+            document.getElementById("outputText").value = await converterTS.convert(inputText);
         }
 
         async function convertToTraditional() {
             const inputText = document.getElementById("inputText").value;
-            if (converterST) {
-                document.getElementById("outputText").value = await converterST(inputText);
-            } else {
+            if (!converterST) {
                 alert("轉換器未載入，請稍候再試！");
+                return;
             }
+            document.getElementById("outputText").value = await converterST.convert(inputText);
         }
 
         loadOpenCC();
-
+        
         $(document).ready(function(){
             $('.banner').slick({
                 autoplay: true,
