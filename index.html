@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繁簡轉換</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,7 +71,7 @@
 
         // ✅ 使用 onload 確保 OpenCC 真的載入
         let script = document.createElement("script");
-        script.src = "https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/umd/full.js";
+        script.src = "https://unpkg.com/opencc-js@1.0.5/full.js"; // 嘗試另一個 CDN
         script.async = true;
         script.onload = async function () {
             console.log("✅ OpenCC 載入成功！");
