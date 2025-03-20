@@ -5,25 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繁簡轉換</title>
 
-    <!-- 修正 OpenCC CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/opencc-js/dist/umd/full.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- ✅ 使用正確的 OpenCC CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/full.js"></script>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
-            position: relative;
             background-color: #d0e9ff;
-        }
-        .container {
-            margin-top: 20px;
         }
         textarea {
             width: 80%;
@@ -54,43 +44,36 @@
     <script>
         let converterTS, converterST;
 
-        function loadOpenCC() {
-            setTimeout(() => {
-                if (typeof OpenCC === "undefined") {
-                    console.error("❌ OpenCC 無法載入！");
-                    alert("轉換器未載入，請稍候再試！");
-                    return;
-                }
-
-                try {
-                    converterTS = OpenCC.Converter({ from: "t", to: "s" }); // 繁轉簡
-                    converterST = OpenCC.Converter({ from: "s", to: "t" }); // 簡轉繁
-                    console.log("✅ OpenCC 轉換器加載成功！");
-                } catch (error) {
-                    console.error("❌ OpenCC 加載失敗：", error);
-                }
-            }, 1000); // 等待 1 秒再執行
+        async function loadOpenCC() {
+            try {
+                converterTS = await OpenCC.ConverterAsync("t2s"); // 繁轉簡
+                converterST = await OpenCC.ConverterAsync("s2t"); // 簡轉繁
+                console.log("✅ OpenCC 轉換器加載成功！");
+            } catch (error) {
+                console.error("❌ OpenCC 加載失敗：", error);
+                alert("轉換器未載入，請稍候再試！");
+            }
         }
 
-        function convertToSimplified() {
+        async function convertToSimplified() {
             const inputText = document.getElementById("inputText").value;
             if (!converterTS) {
                 alert("轉換器未載入，請稍候再試！");
                 return;
             }
-            document.getElementById("outputText").value = converterTS(inputText);
+            document.getElementById("outputText").value = await converterTS.convert(inputText);
         }
 
-        function convertToTraditional() {
+        async function convertToTraditional() {
             const inputText = document.getElementById("inputText").value;
             if (!converterST) {
                 alert("轉換器未載入，請稍候再試！");
                 return;
             }
-            document.getElementById("outputText").value = converterST(inputText);
+            document.getElementById("outputText").value = await converterST.convert(inputText);
         }
 
-        // 確保 DOM 載入後才執行
+        // ✅ 確保 DOM 載入後才執行
         document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ DOM 加載完成，準備載入 OpenCC...");
             loadOpenCC();
