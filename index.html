@@ -15,6 +15,7 @@
             text-align: center;
             margin: 20px;
             position: relative;
+            background-color: #d0e9ff;
         }
         .banner {
             width: 90%;
@@ -56,6 +57,22 @@
             margin-top: 20px;
             font-size: 14px;
         }
+        .social-buttons {
+            margin-top: 10px;
+        }
+        .social-buttons a {
+            margin: 5px;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #0084ff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .social-buttons a:hover {
+            opacity: 0.8;
+        }
         .messenger {
             position: fixed;
             bottom: 20px;
@@ -70,6 +87,11 @@
         }
         .messenger:hover {
             background-color: #006cd9;
+        }
+        .copyright {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
         }
     </style>
 </head>
@@ -93,6 +115,13 @@
     
     <div class="footer">
         訪問次數：<span id="counter">0</span>
+        <div class="social-buttons">
+            <a href="https://line.me/" target="_blank">LINE</a>
+            <a href="https://facebook.com/" target="_blank">FACEBOOK</a>
+            <a href="https://instagram.com/" target="_blank">INSTAGRAM</a>
+            <a href="https://www.threads.net/" target="_blank">THREADS</a>
+        </div>
+        <div class="copyright">© 2025 繁簡轉換工具. 保留所有權利.</div>
     </div>
     
     <div class="messenger" onclick="window.location.href='https://m.me/'">💬</div>
