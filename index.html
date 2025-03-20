@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>繁簡轉換</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/opencc/1.0.5/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            position: relative;
+        }
+        .banner {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .banner img {
+            width: 100%;
+            height: auto;
+        }
+        textarea {
+            width: 90%;
+            max-width: 600px;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .messenger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0084ff;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+        }
+        .messenger:hover {
+            background-color: #006cd9;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div><img src="banner1.jpg" alt="Banner 1"></div>
+        <div><img src="banner2.jpg" alt="Banner 2"></div>
+        <div><img src="banner3.jpg" alt="Banner 3"></div>
+    </div>
+    
+    <div class="container">
+        <h2>繁體 ⇆ 簡體 轉換器</h2>
+        <textarea id="inputText" placeholder="請輸入文字..."></textarea><br>
+        <div>
+            <button onclick="convertToSimplified()">轉換為簡體</button>
+            <button onclick="convertToTraditional()">轉換為繁體</button>
+        </div>
+        <h3>轉換結果：</h3>
+        <textarea id="outputText" readonly></textarea>
+    </div>
+    
+    <div class="footer">
+        訪問次數：<span id="counter">0</span>
+    </div>
+    
+    <div class="messenger" onclick="window.location.href='https://m.me/'">💬</div>
+    
+    <script>
+        async function convertToSimplified() {
+            const converter = OpenCC.Converter({ from: 't2s', to: 's2t' });
+            const inputText = document.getElementById("inputText").value;
+            document.getElementById("outputText").value = await converter(inputText);
+        }
+
+        async function convertToTraditional() {
+            const converter = OpenCC.Converter({ from: 's2t', to: 't2s' });
+            const inputText = document.getElementById("inputText").value;
+            document.getElementById("outputText").value = await converter(inputText);
+        }
+        
+        $(document).ready(function(){
+            $('.banner').slick({
+                autoplay: true,
+                autoplaySpeed: 3000,
+                dots: true,
+            });
+        });
+        
+        let counter = localStorage.getItem('visitCount') || 0;
+        counter++;
+        localStorage.setItem('visitCount', counter);
+        document.getElementById("counter").innerText = counter;
+    </script>
+</body>
+</html>
