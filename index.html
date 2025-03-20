@@ -6,7 +6,7 @@
     <title>繁簡轉換</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.3/opencc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/umd/full.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -116,15 +116,15 @@
     
     <script>
         async function convertToSimplified() {
-            const converter = OpenCC.Converter({ type: 't2s' });
+            const converter = OpenCC.Converter({ from: 't', to: 's' });
             const inputText = document.getElementById("inputText").value;
-            document.getElementById("outputText").value = converter.convertSync(inputText);
+            document.getElementById("outputText").value = await converter(inputText);
         }
 
         async function convertToTraditional() {
-            const converter = OpenCC.Converter({ type: 's2t' });
+            const converter = OpenCC.Converter({ from: 's', to: 't' });
             const inputText = document.getElementById("inputText").value;
-            document.getElementById("outputText").value = converter.convertSync(inputText);
+            document.getElementById("outputText").value = await converter(inputText);
         }
         
         $(document).ready(function(){
