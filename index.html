@@ -6,7 +6,7 @@
     <title>繁簡轉換</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/umd/full.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/full.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -119,34 +119,35 @@ let converterTS, converterST;
 
 async function loadOpenCC() {
     try {
-        converterTS = OpenCC.Converter({ from: 't', to: 's' });
-        converterST = OpenCC.Converter({ from: 's', to: 't' });
-        console.log("✅ OpenCC 繁簡轉換器加載成功！");
+        converterTS = new OpenCC("t2s.json"); // 繁體到簡體
+        converterST = new OpenCC("s2t.json"); // 簡體到繁體
+        console.log("✅ OpenCC 加載成功！");
     } catch (error) {
         console.error("❌ OpenCC 加載失敗：", error);
     }
 }
 
-function convertToSimplified() {
+async function convertToSimplified() {
     const inputText = document.getElementById("inputText").value;
     if (!converterTS) {
         alert("轉換器未載入，請稍候再試！");
         return;
     }
-    document.getElementById("outputText").value = converterTS(inputText);
+    document.getElementById("outputText").value = await converterTS.convertPromise(inputText);
 }
 
-function convertToTraditional() {
+async function convertToTraditional() {
     const inputText = document.getElementById("inputText").value;
     if (!converterST) {
         alert("轉換器未載入，請稍候再試！");
         return;
     }
-    document.getElementById("outputText").value = converterST(inputText);
+    document.getElementById("outputText").value = await converterST.convertPromise(inputText);
 }
 
-// 確保轉換器正確載入
+// 加載 OpenCC
 loadOpenCC();
+
 
 
         
